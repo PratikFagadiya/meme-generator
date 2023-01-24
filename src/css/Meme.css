@@ -1,0 +1,26 @@
+.inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+.form {
+    display: grid;
+}
+
+.form-input{
+    padding: 10px;
+    border-radius: 5px;
+    text-indent: 5px;
+}
+
+.button-submit {
+    padding: 10px 0px;
+    color: white;
+    margin: 0px 30px;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #672280, #A626D3);
+    border: none;
+    cursor: pointer;
+}

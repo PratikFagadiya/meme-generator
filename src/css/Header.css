@@ -1,0 +1,14 @@
+.header {
+    background-image: linear-gradient(to right, #672280, #A626D3);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.header-name {
+    color: white;
+    align-items: center;
+    margin: 0px;
+}
