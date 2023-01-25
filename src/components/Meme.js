@@ -1,6 +1,20 @@
 import '../css/Meme.css'
+import {useEffect, useState} from "react";
+import fetchData from "../network/FetchData";
 
 export default function Meme() {
+
+    const [memeData, setMemeData] = useState()
+
+    useEffect(() => {
+        const getDataFromApi = async () => {
+            const data = await fetchData('get_memes')
+            if (data.success) {
+                setMemeData(data.data.memes[0].name)
+            }
+        }
+        getDataFromApi();
+    }, [])
 
     return (
         <main>
@@ -21,5 +35,3 @@ export default function Meme() {
     }
 
 }
-
-//https://api.imgflip.com/get_memes
