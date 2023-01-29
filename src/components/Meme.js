@@ -2,6 +2,7 @@ import '../css/Meme.css'
 import {useEffect, useState} from "react";
 import fetchData from "../network/FetchData";
 import MemeImage from "./MemeImage";
+import React from "react";
 
 export default function Meme() {
 
@@ -11,7 +12,7 @@ export default function Meme() {
 
     const [showResult, setShowResult] = useState(false)
 
-    let singleMemeModel
+    const [singleMemeModel, setSingleMemeModel] = React.useState()
 
     useEffect(() => {
         const getDataFromApi = async () => {
@@ -38,8 +39,9 @@ export default function Meme() {
 
 
     const submitButtonClicked = event => {
-        event.preventDefault()
-        singleMemeModel = memeData[Math.floor(Math.random() * memeData.length)]
+        // event.preventDefault()  // Use this when you clicked from form tag
+        // singleMemeModel =
+        setSingleMemeModel(memeData[Math.floor(Math.random() * memeData.length)])
         console.log(singleMemeModel)
         setShowResult(true)
     }
@@ -47,7 +49,7 @@ export default function Meme() {
 
     return (<main>
 
-        <form className={'form'}>
+        <div className={'form'}>
 
             <section className={'inputs'}>
                 <input className={'form-input'} type={"text"} placeholder={'Top Text'}/>
@@ -56,19 +58,18 @@ export default function Meme() {
 
             <button className={'button-submit'} onClick={submitButtonClicked}>Get a new meme image</button>
 
-        </form>
+        </div>
 
         {loading && <span>Generating Memes for you... </span>}
         {error && <span>`There is a problem ${error}`</span>}
 
         {showResult &&
-
             <div>
-
-                <MemeImage/>
-
+                <MemeImage
+                    bottomText={'World'}
+                    topText={'Hello'}
+                    url={singleMemeModel.url}/>
             </div>
-
         }
 
     </main>)
