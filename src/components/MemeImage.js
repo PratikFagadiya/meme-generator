@@ -10,7 +10,5 @@ export default function MemeImage(props) {
         <img src={props.url} alt={'Meme Image'}/>
         <h2 className={'bottom-text'}>{props.bottomText}</h2>
 
-        {/*<span>{props.url}</span>*/}
-
     </div>)
 }

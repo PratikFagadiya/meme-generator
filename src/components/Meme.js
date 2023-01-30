@@ -13,6 +13,9 @@ export default function Meme() {
     const [showResult, setShowResult] = useState(false)
 
     const [singleMemeModel, setSingleMemeModel] = React.useState()
+    const [topText, setTopText] = React.useState("")
+    const [bottomText, setBottomText] = React.useState("")
+
 
     useEffect(() => {
         const getDataFromApi = async () => {
@@ -37,7 +40,6 @@ export default function Meme() {
 
     }, [])
 
-
     const submitButtonClicked = event => {
         // event.preventDefault()  // Use this when you clicked from form tag
         // singleMemeModel =
@@ -46,14 +48,16 @@ export default function Meme() {
         setShowResult(true)
     }
 
-
     return (<main>
 
         <div className={'form'}>
 
             <section className={'inputs'}>
-                <input className={'form-input'} type={"text"} placeholder={'Top Text'}/>
-                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'}/>
+                <input className={'form-input'} type={"text"} placeholder={'Top Text'}
+                       onChange={(value) => setTopText(value.target.value)}
+                />
+                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'}
+                       onChange={(value) => setBottomText(value.target.value)}/>
             </section>
 
             <button className={'button-submit'} onClick={submitButtonClicked}>Get a new meme image</button>
@@ -63,14 +67,12 @@ export default function Meme() {
         {loading && <span>Generating Memes for you... </span>}
         {error && <span>`There is a problem ${error}`</span>}
 
-        {showResult &&
-            <div>
-                <MemeImage
-                    bottomText={'World'}
-                    topText={'Hello'}
-                    url={singleMemeModel.url}/>
-            </div>
-        }
+        {showResult && <div>
+            <MemeImage
+                bottomText={bottomText}
+                topText={topText}
+                url={singleMemeModel.url}/>
+        </div>}
 
     </main>)
 
