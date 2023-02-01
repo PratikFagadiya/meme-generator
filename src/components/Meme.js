@@ -13,9 +13,13 @@ export default function Meme() {
     const [showResult, setShowResult] = useState(false)
 
     const [singleMemeModel, setSingleMemeModel] = React.useState()
-    const [topText, setTopText] = React.useState("")
-    const [bottomText, setBottomText] = React.useState("")
 
+    // const [topText, setTopText] = React.useState("")
+    // const [bottomText, setBottomText] = React.useState("")
+
+    const [useText, setUserText] = React.useState({
+        topText: "", bottomText: ""
+    })
 
     useEffect(() => {
         const getDataFromApi = async () => {
@@ -48,16 +52,29 @@ export default function Meme() {
         setShowResult(true)
     }
 
+    function passingValue({target}) {
+        setUserText({
+            ...useText, [target.name]: target.value
+        })
+
+        console.log(useText)
+    }
+
     return (<main>
 
         <div className={'form'}>
 
             <section className={'inputs'}>
-                <input className={'form-input'} type={"text"} placeholder={'Top Text'}
-                       onChange={(value) => setTopText(value.target.value)}
+                <input
+                    name="topText"
+                    className={'form-input'} type={"text"} placeholder={'Top Text'}
+                    onChange={passingValue}
                 />
-                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'}
-                       onChange={(value) => setBottomText(value.target.value)}/>
+                <input
+                    name="bottomText"
+                    className={'form-input'} type={"text"} placeholder={'Bottom Text'}
+                    // onChange={(value) => setBottomText(value.target.value)}/>
+                    onChange={passingValue}/>
             </section>
 
             <button className={'button-submit'} onClick={submitButtonClicked}>Get a new meme image</button>
@@ -69,8 +86,8 @@ export default function Meme() {
 
         {showResult && <div>
             <MemeImage
-                bottomText={bottomText}
-                topText={topText}
+                bottomText={useText.bottomText}
+                topText={useText.topText}
                 url={singleMemeModel.url}/>
         </div>}
 
