@@ -12,7 +12,9 @@ export default function Meme() {
 
     const [showResult, setShowResult] = useState(false)
 
-    const [singleMemeModel, setSingleMemeModel] = React.useState()
+    const [singleMemeModel, setSingleMemeModel] = React.useState({
+        topText: "", bottomText: "", url: "", height: 0, width: 0
+    })
 
     useEffect(() => {
         const getDataFromApi = async () => {
@@ -37,13 +39,24 @@ export default function Meme() {
 
     }, [])
 
-
     const submitButtonClicked = event => {
         // event.preventDefault()  // Use this when you clicked from form tag
         // singleMemeModel =
-        setSingleMemeModel(memeData[Math.floor(Math.random() * memeData.length)])
-        console.log(singleMemeModel)
+
+        // let randomMeme = memeData[Math.floor(Math.random() * memeData.length)]
+        // setSingleMemeModel(randomMeme)
+        // console.log(singleMemeModel)
+
         setShowResult(true)
+    }
+
+    // console.log(`Log is ${singleMemeModel}`)
+
+    const handleInputChange = event => {
+
+        setSingleMemeModel({
+            ...singleMemeModel, [event.target.name]: event.target.value
+        })
     }
 
 
@@ -52,8 +65,14 @@ export default function Meme() {
         <div className={'form'}>
 
             <section className={'inputs'}>
-                <input className={'form-input'} type={"text"} placeholder={'Top Text'}/>
-                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'}/>
+
+                <input className={'form-input'} type={"text"} placeholder={'Top Text'} onChange={handleInputChange}
+                       name={singleMemeModel.topText}/>
+
+                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'} onChange={handleInputChange}
+                       value={singleMemeModel.bottomText}
+                       name={singleMemeModel.bottomText}/>
+
             </section>
 
             <button className={'button-submit'} onClick={submitButtonClicked}>Get a new meme image</button>
@@ -63,14 +82,14 @@ export default function Meme() {
         {loading && <span>Generating Memes for you... </span>}
         {error && <span>`There is a problem ${error}`</span>}
 
-        {showResult &&
-            <div>
-                <MemeImage
-                    bottomText={'World'}
-                    topText={'Hello'}
-                    url={singleMemeModel.url}/>
-            </div>
-        }
+        {showResult && <div>
+            <MemeImage
+                width={`${singleMemeModel.width}px`}
+                height={`${singleMemeModel.height}px`}
+                bottomText={singleMemeModel.bottomText}
+                topText={singleMemeModel.topText}
+                url={singleMemeModel.url}/>
+        </div>}
 
     </main>)
 
