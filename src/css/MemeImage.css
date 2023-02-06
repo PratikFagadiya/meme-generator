@@ -2,6 +2,16 @@
     margin-top: 10px;
     justify-content: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-content: center;
+    position: relative;
+}
+
+.top-text {
+    position: absolute;
+    top: 0;
+}
+
+.bottom-text {
+    bottom: 0;
+    position: absolute;
 }

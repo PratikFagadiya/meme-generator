@@ -12,8 +12,13 @@ export default function Meme() {
 
     const [showResult, setShowResult] = useState(false)
 
-    const [singleMemeModel, setSingleMemeModel] = React.useState({
-        topText: "", bottomText: "", url: "", height: 0, width: 0
+    const [singleMemeModel, setSingleMemeModel] = React.useState()
+
+    // const [topText, setTopText] = React.useState("")
+    // const [bottomText, setBottomText] = React.useState("")
+
+    const [useText, setUserText] = React.useState({
+        topText: "", bottomText: ""
     })
 
     useEffect(() => {
@@ -42,37 +47,34 @@ export default function Meme() {
     const submitButtonClicked = event => {
         // event.preventDefault()  // Use this when you clicked from form tag
         // singleMemeModel =
-
-        // let randomMeme = memeData[Math.floor(Math.random() * memeData.length)]
-        // setSingleMemeModel(randomMeme)
-        // console.log(singleMemeModel)
-
+        setSingleMemeModel(memeData[Math.floor(Math.random() * memeData.length)])
+        console.log(singleMemeModel)
         setShowResult(true)
     }
 
-    // console.log(`Log is ${singleMemeModel}`)
-
-    const handleInputChange = event => {
-
-        setSingleMemeModel({
-            ...singleMemeModel, [event.target.name]: event.target.value
+    function passingValue({target}) {
+        setUserText({
+            ...useText, [target.name]: target.value
         })
-    }
 
+        console.log(useText)
+    }
 
     return (<main>
 
         <div className={'form'}>
 
             <section className={'inputs'}>
-
-                <input className={'form-input'} type={"text"} placeholder={'Top Text'} onChange={handleInputChange}
-                       name={singleMemeModel.topText}/>
-
-                <input className={'form-input'} type={"text"} placeholder={'Bottom Text'} onChange={handleInputChange}
-                       value={singleMemeModel.bottomText}
-                       name={singleMemeModel.bottomText}/>
-
+                <input
+                    name="topText"
+                    className={'form-input'} type={"text"} placeholder={'Top Text'}
+                    onChange={passingValue}
+                />
+                <input
+                    name="bottomText"
+                    className={'form-input'} type={"text"} placeholder={'Bottom Text'}
+                    // onChange={(value) => setBottomText(value.target.value)}/>
+                    onChange={passingValue}/>
             </section>
 
             <button className={'button-submit'} onClick={submitButtonClicked}>Get a new meme image</button>
@@ -84,10 +86,8 @@ export default function Meme() {
 
         {showResult && <div>
             <MemeImage
-                width={`${singleMemeModel.width}px`}
-                height={`${singleMemeModel.height}px`}
-                bottomText={singleMemeModel.bottomText}
-                topText={singleMemeModel.topText}
+                bottomText={useText.bottomText}
+                topText={useText.topText}
                 url={singleMemeModel.url}/>
         </div>}
 
