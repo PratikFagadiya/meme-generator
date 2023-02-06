@@ -12,13 +12,8 @@ export default function Meme() {
 
     const [showResult, setShowResult] = useState(false)
 
-    const [singleMemeModel, setSingleMemeModel] = React.useState()
-
-    // const [topText, setTopText] = React.useState("")
-    // const [bottomText, setBottomText] = React.useState("")
-
-    const [useText, setUserText] = React.useState({
-        topText: "", bottomText: ""
+    const [singleMemeModel, setSingleMemeModel] = useState({
+        topText: "", bottomText: "", url: "", height: 0, width: 0
     })
 
     useEffect(() => {
@@ -45,19 +40,23 @@ export default function Meme() {
     }, [])
 
     const submitButtonClicked = event => {
-        // event.preventDefault()  // Use this when you clicked from form tag
+        event.preventDefault()  // Use this when you clicked from form tag
         // singleMemeModel =
-        setSingleMemeModel(memeData[Math.floor(Math.random() * memeData.length)])
+        const randomMeme = memeData[Math.floor(Math.random() * memeData.length)]
+
+        setSingleMemeModel({
+            ...singleMemeModel, url: randomMeme.url, height: randomMeme.height, width: randomMeme.width
+        })
+
         console.log(singleMemeModel)
+
         setShowResult(true)
     }
 
     function passingValue({target}) {
-        setUserText({
-            ...useText, [target.name]: target.value
+        setSingleMemeModel({
+            ...singleMemeModel, [target.name]: target.value
         })
-
-        console.log(useText)
     }
 
     return (<main>
@@ -67,13 +66,13 @@ export default function Meme() {
             <section className={'inputs'}>
                 <input
                     name="topText"
-                    className={'form-input'} type={"text"} placeholder={'Top Text'}
+                    className={'form-input'}
+                    type={"text"} placeholder={'Top Text'}
                     onChange={passingValue}
                 />
                 <input
                     name="bottomText"
                     className={'form-input'} type={"text"} placeholder={'Bottom Text'}
-                    // onChange={(value) => setBottomText(value.target.value)}/>
                     onChange={passingValue}/>
             </section>
 
@@ -86,8 +85,10 @@ export default function Meme() {
 
         {showResult && <div>
             <MemeImage
-                bottomText={useText.bottomText}
-                topText={useText.topText}
+                height={`${singleMemeModel.height}px`}
+                width={`${singleMemeModel.width}px`}
+                bottomText={singleMemeModel.bottomText}
+                topText={singleMemeModel.topText}
                 url={singleMemeModel.url}/>
         </div>}
 
